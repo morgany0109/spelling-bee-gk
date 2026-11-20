@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172b45">
+<title>Spelling Bee · GK</title>
+<style>
+:root{
+  --paper:#fffaf0;--ink:#26364a;--muted:#718093;--coral:#ef927d;
+  --yellow:#f4d58b;--sea:#234b65;--deep:#172b45;--mint:#a9c9bd;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Trebuchet MS",ui-rounded,system-ui,sans-serif;color:var(--ink)}
+body{
+  min-height:100svh;overflow-x:hidden;
+  background:linear-gradient(180deg,#182d49 0%,#294c68 48%,#315f73 100%);
+  display:flex;justify-content:center;align-items:stretch;padding:0;
+}
+.sky{position:fixed;inset:0 0 38% 0;pointer-events:none;overflow:hidden}
+.star{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff4d9;opacity:.8;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{to{opacity:.2;transform:scale(.65)}}
+.moon{position:absolute;right:12%;top:8%;width:46px;height:46px;border-radius:50%;background:#f8e6b7;box-shadow:0 0 32px #f8e6b755}
+.moon:after{content:"";position:absolute;left:-9px;top:-5px;width:44px;height:44px;border-radius:50%;background:#1b3550}
+.harbor{position:fixed;left:0;right:0;bottom:0;height:44%;pointer-events:none;overflow:hidden}
+.water{position:absolute;inset:18% 0 0;background:linear-gradient(#315f73,#1c435d)}
+.water:before,.water:after{content:"";position:absolute;left:-10%;width:120%;height:34px;border-top:2px solid #b2d1c7aa;border-radius:50%;animation:ripple 7s linear infinite}
+.water:before{top:18%}.water:after{top:52%;animation-delay:-3s;opacity:.6}
+@keyframes ripple{0%{transform:translateX(-3%) scaleY(1)}50%{transform:translateX(3%) scaleY(.8)}100%{transform:translateX(-3%) scaleY(1)}}
+.dock{position:absolute;right:-3%;bottom:35%;width:34%;height:12px;background:#5e5b55;transform:rotate(-2deg);border-radius:3px;box-shadow:0 8px 0 #172b45}
+.dock:before{content:"";position:absolute;left:12%;top:8px;width:7px;height:70px;background:#665f55;box-shadow:65px 0 #665f55,130px 0 #665f55}
+.boat{position:absolute;left:12%;bottom:39%;width:145px;height:70px;animation:boat 5s ease-in-out infinite}
+@keyframes boat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+.hull{position:absolute;bottom:0;left:0;width:140px;height:30px;background:#d77f68;clip-path:polygon(0 0,100% 0,82% 100%,18% 100%);border-bottom:5px solid #f1c98d}
+.sail{position:absolute;bottom:29px;left:53px;width:0;height:0;border-bottom:54px solid #f4dfb2;border-left:0 solid transparent;border-right:42px solid transparent}
+.sail.two{left:58px;border-bottom:45px solid #a9c9bd;border-right:0;border-left:34px solid transparent;opacity:.9}
+.mast{position:absolute;left:55px;bottom:27px;width:3px;height:62px;background:#e8d7b2}
+.boat:after{content:"";position:absolute;bottom:34px;left:78px;width:25px;height:13px;border-radius:12px 12px 3px 3px;background:#f3d28e}
+.lighthouse{position:absolute;left:6%;bottom:38%;width:32px;height:88px;background:#f5e7c9;border-radius:8px 8px 2px 2px;box-shadow:inset 9px 0 #d7b99a}
+.lighthouse:before{content:"";position:absolute;left:-7px;top:-12px;width:46px;height:14px;background:#d77f68;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.lighthouse:after{content:"";position:absolute;left:7px;top:9px;width:18px;height:15px;background:#f5d58d;border-radius:3px;box-shadow:0 0 25px 12px #f5d58d55}
+.cloud{position:absolute;top:23%;left:18%;width:82px;height:20px;border-radius:30px;background:#536b7e;opacity:.55}
+.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud:before{width:33px;height:33px;left:13px;top:-14px}.cloud:after{width:42px;height:42px;left:36px;top:-22px}
+main{position:relative;z-index:2;width:min(100%,520px);min-height:100svh;padding:clamp(22px,6vh,48px) 20px 34vh;display:flex;flex-direction:column;align-items:center}
+header{text-align:center;color:var(--paper);margin:0 0 24px;text-shadow:0 2px 8px #10243b66}
+h1{font-family:Georgia,serif;font-weight:500;letter-spacing:.04em;font-size:clamp(2.25rem,10vw,3.4rem);line-height:1;margin:0}
+.subtitle{font-size:.82rem;letter-spacing:.55em;margin:10px 0 0 8px;color:#f2d9a6}
+.card{
+ width:100%;background:var(--paper);border:3px solid #e9d8b9;border-radius:25px;
+ padding:24px 20px 22px;box-shadow:0 12px 0 #142b4266,0 20px 40px #10243b55;
+ text-align:center;position:relative;overflow:hidden
+}
+.card:before{content:"";position:absolute;inset:7px;border:1px dashed #d9c7a7;border-radius:17px;pointer-events:none}
+.topline{position:relative;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em}
+.progress{height:7px;background:#eee5d5;border-radius:9px;margin:12px 2px 24px;overflow:hidden;position:relative}
+.progress span{display:block;height:100%;width:0;background:var(--coral);border-radius:9px;transition:width .3s}
+.prompt{position:relative;font-family:Georgia,serif;font-size:1.18rem;color:#667589;margin:0 0 14px}
+.listen{
+ position:relative;border:0;border-radius:50%;width:78px;height:78px;background:#f2d58f;color:#34465b;
+ box-shadow:0 5px 0 #d3b36e;display:inline-grid;place-items:center;font-size:2rem;cursor:pointer;
+ transition:transform .12s,box-shadow .12s
+}
+.listen:active{transform:translateY(4px);box-shadow:0 1px 0 #d3b36e}
+.listen small{position:absolute;white-space:nowrap;top:86px;font-size:.72rem;font-weight:700;letter-spacing:.08em;color:#778493}
+.input-wrap{position:relative;margin:42px 0 14px}
+input{
+ width:100%;height:58px;border:2px solid #d9cbb3;border-radius:14px;background:#fffdf8;
+ text-align:center;font-size:1.35rem;letter-spacing:.08em;color:var(--ink);outline:none;
+ font-family:inherit;font-weight:700;text-transform:lowercase;
+}
+input:focus{border-color:#83aaa0;box-shadow:0 0 0 4px #a9c9bd44}
+input:disabled{opacity:.65}
+.actions{position:relative;display:grid;grid-template-columns:1fr;gap:10px}
+.btn{border:0;border-radius:14px;min-height:52px;padding:12px 18px;font:700 1rem inherit;letter-spacing:.03em;cursor:pointer;transition:transform .12s,filter .12s}
+.btn:active{transform:translateY(2px);filter:brightness(.96)}
+.primary{background:#e98f79;color:white;box-shadow:0 4px 0 #c76f5c}
+.secondary{background:#dce9df;color:#35564e;box-shadow:0 4px 0 #b6cec0}
+.feedback{position:relative;min-height:27px;margin:14px 0 0;font-weight:700;font-size:.92rem;color:#788697}
+.feedback.good{color:#54816d}.feedback.bad{color:#c46e60}
+.next{display:none;margin-top:12px;width:100%;background:#8eaf9f;color:#fff;box-shadow:0 4px 0 #668c7b}
+.next.show{display:block}
+.footer{position:relative;color:#e8e2d2aa;font-size:.72rem;letter-spacing:.08em;margin-top:16px;text-align:center}
+.fireworks{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.burst{position:absolute;width:8px;height:8px;border-radius:50%;animation:burst 1.1s ease-out forwards;box-shadow:0 0 8px currentColor}
+@keyframes burst{0%{transform:translate(0,0) scale(.2);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+@media(min-width:600px){main{padding-bottom:30vh}.card{padding:30px 32px}.actions{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true">
+ <div class="moon"></div><div class="cloud"></div>
+ <i class="star" style="left:9%;top:17%"></i><i class="star" style="left:27%;top:9%;animation-delay:.7s"></i>
+ <i class="star" style="left:42%;top:23%;animation-delay:1.2s"></i><i class="star" style="left:63%;top:13%;animation-delay:.3s"></i>
+ <i class="star" style="left:78%;top:28%;animation-delay:1.8s"></i><i class="star" style="left:91%;top:17%;animation-delay:1s"></i>
+ <i class="star" style="left:51%;top:6%;animation-delay:2s"></i>
+</div>
+<div class="harbor" aria-hidden="true">
+ <div class="lighthouse"></div><div class="dock"></div><div class="water"></div>
+ <div class="boat"><div class="mast"></div><div class="sail"></div><div class="sail two"></div><div class="hull"></div></div>
+</div>
+<div class="fireworks" id="fireworks"></div>
+<main>
+ <header><h1>Spelling Bee</h1><div class="subtitle">G K</div></header>
+ <section class="card" aria-label="Spelling practice">
+  <div class="topline"><span id="counter">WORD 1</span><span id="score">0 CORRECT</span></div>
+  <div class="progress"><span id="progress"></span></div>
+  <p class="prompt">Listen carefully. Then spell the word!</p>
+  <button class="listen" id="speak" aria-label="Hear the word">🔊<small>LISTEN</small></button>
+  <div class="input-wrap"><input id="answer" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type the word" aria-label="Type the spelling"></div>
+  <div class="actions">
+   <button class="btn primary" id="check">Check spelling</button>
+   <button class="btn secondary" id="clear">Try again</button>
+  </div>
+  <p class="feedback" id="feedback" aria-live="polite">Ready when you are!</p>
+  <button class="btn next" id="next">Next word →</button>
+ </section>
+ <div class="footer">A LITTLE PRACTICE, A LOT OF MAGIC ✦</div>
+</main>
+<script>
+const WORDS = `act add air any ape away barn bay bunny cab calf candy care child city
+hay help here hill hop lap late like line look love low more move nap
+family fireman flower giraffe goldfish health hippo holiday keep large little lost never next number
+sticker strong summer sweet tag things town tractor tricycle tummy wave week wolf worm yell`
+.split(/\s+/).filter(Boolean);
+
+let deck = [], index = 0, correct = 0, locked = false;
+const $ = id => document.getElementById(id);
+const answer = $('answer'), feedback = $('feedback');
+function shuffle(){ deck=[...WORDS]; for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];} }
+function current(){return deck[index];}
+function update(){
+ $('counter').textContent=`WORD ${index+1} / ${deck.length}`;
+ $('score').textContent=`${correct} CORRECT`;
+ $('progress').style.width=`${(index/deck.length)*100}%`;
+ answer.value='';answer.disabled=false;answer.focus({preventScroll:true});
+ locked=false;$('next').classList.remove('show');$('check').disabled=false;$('clear').disabled=false;
+ feedback.textContent='Ready when you are!';feedback.className='feedback';
+}
+function speak(){
+ if(!('speechSynthesis' in window)){feedback.textContent='Speech is not available in this browser.';return;}
+ speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(current());
+ utterance.lang='en-US';utterance.rate=.82;utterance.pitch=1.04;
+ const voices=speechSynthesis.getVoices();
+ const voice=voices.find(v=>v.lang==='en-US')||voices.find(v=>v.lang.startsWith('en'));
+ if(voice) utterance.voice=voice;
+ speechSynthesis.speak(utterance);
+}
+function sound(type){
+ try{
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const now=ctx.currentTime;
+  if(type==='win'){
+   [523,659,784,1047].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,now+i*.09);g.gain.exponentialRampToValueAtTime(.12,now+i*.09+.025);g.gain.exponentialRampToValueAtTime(.0001,now+i*.09+.42);o.connect(g);g.connect(ctx.destination);o.start(now+i*.09);o.stop(now+i*.09+.45);});
+  }else{
+   const o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';
+   o.frequency.setValueAtTime(150,now);o.frequency.exponentialRampToValueAtTime(48,now+.42);
+   g.gain.setValueAtTime(.0001,now);g.gain.linearRampToValueAtTime(.16,now+.04);g.gain.exponentialRampToValueAtTime(.0001,now+.48);
+   o.connect(g);g.connect(ctx.destination);o.start();o.stop(now+.5);
+  }
+  setTimeout(()=>ctx.close(),1000);
+ }catch(e){}
+}
+function fireworks(){
+ const layer=$('fireworks'), colors=['#ffe29a','#ff9c86','#b5e0ce','#fff3d3','#b8c9ef'];
+ for(let b=0;b<5;b++){
+  const cx=12+Math.random()*76,cy=12+Math.random()*42;
+  for(let k=0;k<22;k++){
+   const p=document.createElement('i');p.className='burst';
+   const a=Math.PI*2*k/22,dist=45+Math.random()*75;
+   p.style.left=cx+'%';p.style.top=cy+'%';p.style.color=colors[Math.floor(Math.random()*colors.length)];
+   p.style.background='currentColor';p.style.setProperty('--dx',Math.cos(a)*dist+'px');p.style.setProperty('--dy',Math.sin(a)*dist+'px');
+   p.style.animationDelay=(b*.13)+'s';layer.appendChild(p);setTimeout(()=>p.remove(),1500);
+  }
+ }
+}
+function check(){
+ if(locked)return;
+ const typed=answer.value.trim().toLowerCase();
+ if(!typed){feedback.textContent='Type your spelling first!';feedback.className='feedback bad';answer.focus();return;}
+ if(typed===current()){
+  locked=true;correct++;answer.disabled=true;$('check').disabled=true;$('clear').disabled=true;
+  $('score').textContent=`${correct} CORRECT`; $('progress').style.width=`${((index+1)/deck.length)*100}%`;
+  feedback.textContent='Wonderful! You got it! ✨';feedback.className='feedback good';
+  sound('win');fireworks();$('next').classList.add('show');$('next').textContent=index===deck.length-1?'Start again ↻':'Next word →';
+ }else{
+  feedback.textContent='Oops! Give it another try.';feedback.className='feedback bad';sound('oops');
+  answer.select();
+ }
+}
+function next(){
+ if(index===deck.length-1){shuffle();index=0;correct=0;}else index++;
+ update();speak();
+}
+$('speak').addEventListener('click',speak);
+$('check').addEventListener('click',check);
+$('clear').addEventListener('click',()=>{if(locked)return;answer.value='';feedback.textContent='Try again. You can do it!';feedback.className='feedback';answer.focus();});
+$('next').addEventListener('click',next);
+answer.addEventListener('keydown',e=>{if(e.key==='Enter'){if(locked)next();else check();}});
+shuffle();update();
+</script>
+</body>
+</html>
