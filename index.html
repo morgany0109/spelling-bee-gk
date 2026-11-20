@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Spelling Bee · GK</title>
+<style>
+:root{color-scheme:light;--paper:#fffaf0;--ink:#344653;--muted:#71828b;--coral:#f18e78;--yellow:#f6d98b;--sea:#315d70;--deep:#18394d;--mint:#b9d8c8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Trebuchet MS","Noto Sans TC",system-ui,sans-serif;background:#18394d;overflow-x:hidden}
+button,input{font:inherit}
+.scene{position:fixed;inset:0;overflow:hidden;background:linear-gradient(180deg,#172d48 0%,#294b61 54%,#315d70 100%);z-index:-2}
+.stars{position:absolute;inset:0;background-image:radial-gradient(#fff4cf 1px,transparent 1.5px),radial-gradient(#d6e8ed 1px,transparent 1.5px);background-size:83px 71px,127px 113px;background-position:8px 12px,40px 31px;opacity:.72}
+.moon{position:absolute;right:13%;top:8%;width:76px;height:76px;border-radius:50%;background:#fff0c9;box-shadow:0 0 35px #fff0c966}
+.moon:after{content:"";position:absolute;left:-12px;top:-7px;width:72px;height:72px;border-radius:50%;background:#1d3a50}
+.water{position:absolute;left:-5%;right:-5%;bottom:0;height:38%;background:linear-gradient(180deg,#3c7180,#20485d);border-top:3px solid #9bc4c4;opacity:.95}
+.ripple{position:absolute;left:-10%;right:-10%;height:2px;background:linear-gradient(90deg,transparent,#b9d9d4aa,transparent);border-radius:50%;animation:ripple 6s ease-in-out infinite}
+.r1{top:22%;animation-delay:-1s}.r2{top:46%;animation-delay:-3s}.r3{top:71%;animation-delay:-4s}
+@keyframes ripple{0%,100%{transform:translateX(-4%) scaleX(.8);opacity:.3}50%{transform:translateX(4%) scaleX(1.1);opacity:.8}}
+.boat{position:absolute;bottom:22%;left:13%;width:170px;height:72px;animation:boat 5s ease-in-out infinite}
+.boat .hull{position:absolute;bottom:0;left:0;width:160px;height:33px;background:#d9866c;clip-path:polygon(0 0,100% 0,84% 100%,18% 100%);border-radius:0 0 20px 20px}
+.boat .deck{position:absolute;bottom:29px;left:40px;width:68px;height:18px;background:#f5d99d;border-radius:9px 9px 0 0}
+.boat .mast{position:absolute;bottom:42px;left:81px;width:3px;height:60px;background:#f7e8c5}
+.boat .sail{position:absolute;bottom:45px;left:85px;width:0;height:0;border-left:0 solid transparent;border-right:50px solid transparent;border-bottom:53px solid #f3d99d;filter:drop-shadow(1px 2px 0 #a9c7c3)}
+@keyframes boat{0%,100%{transform:translate(0,0) rotate(-1deg)}50%{transform:translate(18px,-8px) rotate(1deg)}}
+.lighthouse{position:absolute;bottom:31%;right:9%;width:42px;height:105px;background:#f3e4c5;clip-path:polygon(24% 0,76% 0,100% 100%,0 100%)}
+.lighthouse:before{content:"";position:absolute;top:9px;left:10px;width:22px;height:22px;background:#f4a17f;border:4px solid #f8e7c8}
+.lighthouse:after{content:"";position:absolute;top:0;left:0;width:100%;height:5px;background:#e68f79}
+.dock{position:absolute;bottom:29%;left:0;width:100%;height:13px;background:#c28e69;box-shadow:0 8px 0 #815f55}
+.dock:before{content:"";position:absolute;left:9%;top:9px;width:9px;height:95px;background:#886b5d;box-shadow:90px 0 #886b5d,180px 0 #886b5d,270px 0 #886b5d}
+.fireworks{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.burst{position:absolute;width:8px;height:8px;border-radius:50%;animation:burst 1.2s ease-out forwards;box-shadow:0 0 8px currentColor}
+@keyframes burst{0%{transform:scale(.1);opacity:1;box-shadow:0 0 0 0 currentColor}35%{opacity:1}100%{transform:scale(1);opacity:0;box-shadow:0 -60px 0 -2px currentColor,42px -42px 0 -2px currentColor,60px 0 0 -2px currentColor,42px 42px 0 -2px currentColor,0 60px 0 -2px currentColor,-42px 42px 0 -2px currentColor,-60px 0 0 -2px currentColor,-42px -42px 0 -2px currentColor,28px -18px 0 -2px #fff0c9,-28px 18px 0 -2px #fff0c9}
+.wrap{width:min(720px,calc(100% - 28px));margin:0 auto;padding:26px 0 34px;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.panel{position:relative;width:100%;max-width:590px;background-color:#fffaf0 !important;background:var(--paper);color:#344653 !important;border:3px solid #344653;border-radius:28px;padding:28px clamp(20px,5vw,42px) 25px;box-shadow:8px 9px 0 #132f43aa;overflow:hidden}
+.panel:before{content:"";position:absolute;inset:9px;border:1px dashed #d8c9ac;border-radius:19px;pointer-events:none}
+.content{position:relative;z-index:1;text-align:center;color:#344653}
+.kicker{display:inline-block;padding:5px 15px;border:2px solid var(--ink);border-radius:99px;background:#f5dfaa;font-size:12px;letter-spacing:3px;font-weight:800}
+h1{font-family:Georgia,serif;font-size:clamp(39px,8vw,57px);line-height:1;margin:15px 0 4px;letter-spacing:-2px;color:#344653}
+.subtitle{font-family:Georgia,serif;font-size:22px;letter-spacing:5px;color:#d47d6b;margin-bottom:17px}
+.intro{color:var(--muted);font-size:14px;margin:0 0 20px}
+.progress-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#7a8587;margin:0 auto 8px;max-width:390px}
+.track{height:9px;background:#e8e0d1;border:1px solid #344653;border-radius:20px;max-width:390px;margin:0 auto 23px;overflow:hidden}
+.fill{height:100%;width:0;background:#9fc8b5;border-radius:20px;transition:width .3s}
+.word-card{max-width:390px;margin:0 auto 17px;padding:18px 15px 16px;background:#f4eee1;border:2px solid #455762;border-radius:20px;box-shadow:3px 4px 0 #d9cbb4}
+.word-label{font-size:11px;letter-spacing:2px;color:#8b8b7f;margin-bottom:7px}
+.word-placeholder{font-family:Georgia,serif;font-size:31px;color:#526c75;letter-spacing:3px;min-height:39px}
+.word-hint{font-size:12px;color:#89918b;margin-top:4px}
+button{border:2px solid var(--ink);border-radius:15px;padding:12px 18px;background:#f3d78f;color:#344653;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #b9a16e;transition:transform .12s,box-shadow .12s}
+button:hover{transform:translateY(-2px);box-shadow:0 6px 0 #b9a16e}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #b9a16e}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.listen{display:inline-flex;align-items:center;gap:9px;background:#c5dfd0;box-shadow:0 4px 0 #8daf9e;margin-bottom:16px}
+.listen:hover{box-shadow:0 6px 0 #8daf9e}
+.listen .speaker{font-size:19px}
+.entry{display:flex;gap:9px;max-width:390px;margin:0 auto}
+input{min-width:0;flex:1;border:2px solid #758b8c;border-radius:14px;padding:13px 14px;background:#fffefa;color:#344653;font-size:18px;letter-spacing:1px;outline:none;text-align:center}
+input:focus{border-color:#d98775;box-shadow:0 0 0 3px #f3d7c8}
+.check{background:#e99b84;box-shadow:0 4px 0 #bd7869;white-space:nowrap}
+.feedback{min-height:31px;margin:14px 0 0;font-size:14px;font-weight:700}
+.feedback.good{color:#4d9073}.feedback.bad{color:#c26c5c}
+.next{display:none !important;background:#c5dfd0;box-shadow:0 4px 0 #8daf9e;margin-top:4px}
+.next.show{display:inline-flex !important;align-items:center;gap:8px}
+.footer{margin-top:20px;color:#89918b;font-size:11px;letter-spacing:1px}
+.doodle{position:absolute;font-size:22px;opacity:.8}.d1{left:24px;top:27px;transform:rotate(-15deg)}.d2{right:24px;top:29px;transform:rotate(13deg)}.d3{right:29px;bottom:23px}
+.complete{display:none !important}.complete.show{display:block !important}
+.complete h2{font: bold 34px Georgia,serif;margin:8px 0;color:#4d9073}
+.complete p{color:#6f807d;line-height:1.7}
+.restart{margin-top:12px}
+@media(max-width:480px){.wrap{padding:16px 0}.panel{padding:25px 17px 22px}.entry{flex-direction:column}.check{width:100%}.boat{left:2%;transform:scale(.8);transform-origin:left bottom}.lighthouse{right:5%;transform:scale(.8);transform-origin:bottom right}.moon{right:8%;width:58px;height:58px}}
+
+/* Mobile-first refinements */
+html { min-height:100%; background:#18394d; -webkit-text-size-adjust:100%; }
+body {
+  min-height:100svh; min-height:100dvh; margin:0; padding:0;
+  background:#18394d; color:#344653; overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.scene { position:fixed; inset:0; min-height:100%; }
+.wrap {
+  width:min(100% - 24px, 590px);
+  min-height:100svh; min-height:100dvh;
+  margin:0 auto; padding: max(16px, env(safe-area-inset-top)) 0 max(22px, env(safe-area-inset-bottom));
+  display:flex; align-items:center; justify-content:center;
+}
+.panel {
+  width:100%; max-width:590px; margin:auto;
+  background:#fffaf0 !important; color:#344653 !important;
+  border:2px solid #344653; border-radius:24px;
+  padding:25px 17px 22px;
+  box-shadow:5px 6px 0 #132f43aa;
+}
+.panel * { box-sizing:border-box; }
+.content { color:#344653 !important; }
+h1 { font-size:clamp(36px, 11vw, 54px); }
+.intro { line-height:1.55; }
+.progress-row,.track,.word-card,.entry { width:100%; max-width:390px; }
+.word-card { padding:16px 12px; }
+.word-placeholder { font-size:clamp(26px, 8vw, 34px); overflow-wrap:anywhere; }
+.listen { min-height:48px; min-width:190px; justify-content:center; touch-action:manipulation; }
+.entry { display:flex; flex-direction:column; gap:10px; }
+.entry input { width:100%; min-height:50px; font-size:18px; }
+.entry button { width:100%; min-height:48px; touch-action:manipulation; }
+.next { display:none !important; min-height:48px; margin-top:6px; }
+.next.show { display:inline-flex !important; }
+.complete { display:none !important; }
+.complete.show { display:block !important; }
+button { min-height:44px; touch-action:manipulation; }
+.feedback { min-height:34px; line-height:1.5; }
+.footer { padding-bottom:2px; }
+@media (min-width:560px) {
+  .wrap { width:min(100% - 40px, 720px); padding:28px 0; }
+  .panel { padding:30px 38px 26px; border-width:3px; border-radius:28px; }
+  .entry { flex-direction:row; }
+  .entry input { width:auto; }
+  .entry button { width:auto; }
+}
+@media (max-height:720px) and (max-width:559px) {
+  .wrap { align-items:flex-start; }
+  .panel { margin:12px auto; }
+}
+
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true">
+  <div class="stars"></div><div class="moon"></div>
+  <div class="dock"></div>
+  <div class="boat"><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
+  <div class="lighthouse"></div>
+  <div class="water"><div class="ripple r1"></div><div class="ripple r2"></div><div class="ripple r3"></div></div>
+  <div class="fireworks" id="fireworks"></div>
+</div>
+<main class="wrap">
+<section class="panel">
+  <span class="doodle d1">✦</span><span class="doodle d2">☾</span><span class="doodle d3">✧</span>
+  <div class="content">
+    <div class="kicker">A LITTLE NIGHT-TIME WORD GAME</div>
+    <h1>Spelling Bee</h1><div class="subtitle">GK</div>
+    <p class="intro">港口的夜晚，來挑戰今天的英文單字吧！</p>
+    <div id="game">
+      <div class="progress-row"><span id="count">WORD 01 / 60</span><span id="score">0 correct</span></div>
+      <div class="track"><div class="fill" id="progress"></div></div>
+      <div class="word-card">
+        <div class="word-label">LISTEN CAREFULLY</div>
+        <div class="word-placeholder" id="masked">? ? ?</div>
+        <div class="word-hint">聽發音，輸入正確的英文拼字</div>
+      </div>
+      <button class="listen" id="listen"><span class="speaker">🔊</span><span>聽單字發音</span></button>
+      <div class="entry">
+        <input id="answer" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type the spelling…" aria-label="輸入英文單字">
+        <button class="check" id="check">確認拼字 ✓</button>
+      </div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <button class="next" id="next" style="display:none">下一題 <span>→</span></button>
+    </div>
+    <div class="complete" id="complete" style="display:none">
+      <div style="font-size:48px">🏆</div>
+      <h2>Wonderful!</h2>
+      <p>太棒了！你完成了所有單字挑戰。<br>今晚的港口因為你而閃閃發亮！</p>
+      <button class="restart" id="restart">再玩一次 ↻</button>
+    </div>
+    <div class="footer">✦ LISTEN · SPELL · SHINE ✦</div>
+  </div>
+</section>
+</main>
+<script>
+const words = `act add air any ape away barn bay bunny cab calf candy care child city hay help here hill hop lap late like line look love low more move nap family fireman flower giraffe goldfish health hippo holiday keep large little lost never next number sticker strong summer sweet tag things town tractor tricycle tummy wave week wolf worm yell`.trim().split(/\s+/);
+let deck=[], index=0, correct=0, locked=false;
+const $=id=>document.getElementById(id);
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+function current(){return deck[index]}
+function update(){ $('count').textContent=`WORD ${String(index+1).padStart(2,'0')} / ${deck.length}`;$('score').textContent=`${correct} correct`;$('progress').style.width=`${index/deck.length*100}%`;$('masked').textContent='? '.repeat(Math.min(6,Math.max(3,current().length))).trim();$('answer').value='';$('answer').disabled=false;$('check').disabled=false;$('listen').disabled=false;$('feedback').textContent='';$('feedback').className='feedback';$('next').classList.remove('show');$('next').style.display='none';$('complete').classList.remove('show');$('complete').style.display='none';$('game').style.display='block';locked=false;$('answer').focus({preventScroll:true})}
+function speak(){if(!('speechSynthesis'in window)){ $('feedback').textContent='目前瀏覽器不支援語音播放，請改用 Chrome 或 Safari。';return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(current());u.lang='en-US';u.rate=.82;u.pitch=1.03;speechSynthesis.speak(u)}
+function sound(type){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const now=ctx.currentTime;if(type==='wrong'){const len=.42;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sawtooth';osc.frequency.setValueAtTime(180,now);osc.frequency.exponentialRampToValueAtTime(65,now+len);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.16,now+.04);gain.gain.exponentialRampToValueAtTime(.0001,now+len);osc.connect(gain);gain.connect(ctx.destination);osc.start(now);osc.stop(now+len)}else{[523,659,784,1047].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,now+i*.11);g.gain.exponentialRampToValueAtTime(.12,now+i*.11+.02);g.gain.exponentialRampToValueAtTime(.0001,now+i*.11+.34);o.connect(g);g.connect(ctx.destination);o.start(now+i*.11);o.stop(now+i*.11+.36)})}setTimeout(()=>ctx.close(),1300)}catch(e){}}
+function fireworks(){const layer=$('fireworks'),colors=['#ffd98e','#f18e78','#c5dfd0','#fff0c9','#b6c8ed'];for(let i=0;i<9;i++){setTimeout(()=>{const b=document.createElement('i');b.className='burst';b.style.left=(12+Math.random()*76)+'%';b.style.top=(9+Math.random()*43)+'%';b.style.color=colors[Math.floor(Math.random()*colors.length)];b.style.background='currentColor';layer.appendChild(b);setTimeout(()=>b.remove(),1300)},i*130)}}
+function check(){if(locked)return;const val=$('answer').value.trim().toLowerCase();if(!val){$('feedback').textContent='先輸入你聽到的單字喔！';$('feedback').className='feedback bad';return}if(val===current()){locked=true;correct++;$('feedback').textContent='太厲害了！拼字正確！🎉';$('feedback').className='feedback good';$('answer').disabled=true;$('check').disabled=true;$('listen').disabled=true;$('next').classList.add('show');$('next').style.display='inline-flex';$('score').textContent=`${correct} correct`;$('progress').style.width=`${(index+1)/deck.length*100}%`;sound('right');fireworks()}else{ $('feedback').textContent='再試一次！聽聽看，慢慢拼～';$('feedback').className='feedback bad';sound('wrong');$('answer').select()}}
+function next(){if(!locked)return;index++;if(index>=deck.length){$('game').style.display='none';$('complete').classList.add('show');$('complete').style.display='block';$('progress').style.width='100%';return}update();speak()}
+function start(){deck=shuffle(words);index=0;correct=0;$('game').style.display='block';$('complete').classList.remove('show');update()}
+$('listen').addEventListener('click',speak);$('check').addEventListener('click',check);$('next').addEventListener('click',next);$('restart').addEventListener('click',start);
+$('answer').addEventListener('keydown',e=>{if(e.key==='Enter'){if(locked)next();else check()}});
+start();
+</script>
+</body>
+</html>
